@@ -8,7 +8,13 @@
     "bin"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "babel src -d lib",
+    "watch": "babel --watch src -d lib",
+    "lint": "eslint src",
+    "lint:fix": "eslint --fix src",
+    "test": "jest --coverage lib",
+    "test:watch": "jest --watch lib",
+    "prepack": "rimraf lib/**/__tests__"
   },
   "repository": {
     "type": "git",
@@ -27,5 +33,18 @@
   "bugs": {
     "url": "https://github.com/cyrilwanner/next-serverless/issues"
   },
-  "homepage": "https://github.com/cyrilwanner/next-serverless#readme"
+  "homepage": "https://github.com/cyrilwanner/next-serverless#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.0.0-beta.52",
+    "@babel/core": "^7.0.0-beta.52",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.52",
+    "@babel/preset-env": "^7.0.0-beta.52",
+    "eslint": "^5.0.1",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jest": "^21.17.0",
+    "jest": "^23.3.0",
+    "npm-autoinstaller": "^1.3.1",
+    "rimraf": "^2.6.2"
+  }
 }
