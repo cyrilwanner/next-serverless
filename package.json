@@ -1,0 +1,31 @@
+{
+  "name": "next-serverless",
+  "version": "0.1.0",
+  "description": "Runs your next.js app with serverless in the cloud",
+  "main": "lib/index.js",
+  "files": [
+    "lib",
+    "bin"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cyrilwanner/next-serverless.git"
+  },
+  "keywords": [
+    "next.js",
+    "next",
+    "react",
+    "plugin",
+    "serverless",
+    "aws"
+  ],
+  "author": "Cyril Wanner <info@cyr.li>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cyrilwanner/next-serverless/issues"
+  },
+  "homepage": "https://github.com/cyrilwanner/next-serverless#readme"
+}
