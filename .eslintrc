@@ -9,6 +9,8 @@
   "rules": {
     "jest/no-disabled-tests": "error",
     "jest/no-focused-tests": "error",
-    "jest/no-identical-title": "error"
+    "jest/no-identical-title": "error",
+    "import/prefer-default-export": "off",
+    "consistent-return": "off"
   }
 }
