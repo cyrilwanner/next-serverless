@@ -5,7 +5,8 @@
   "main": "lib/index.js",
   "files": [
     "lib",
-    "bin"
+    "bin",
+    "default-serverless.yml"
   ],
   "scripts": {
     "build": "babel src -d lib",
@@ -34,6 +35,9 @@
     "url": "https://github.com/cyrilwanner/next-serverless/issues"
   },
   "homepage": "https://github.com/cyrilwanner/next-serverless#readme",
+  "dependencies": {
+    "serverless-http": "^1.6.0"
+  },
   "devDependencies": {
     "@babel/cli": "^7.0.0-beta.52",
     "@babel/core": "^7.0.0-beta.52",
@@ -46,9 +50,6 @@
     "jest": "^23.3.0",
     "npm-autoinstaller": "^1.3.1",
     "rimraf": "^2.6.2"
-  },
-  "dependencies": {
-    "serverless-http": "^1.6.0"
   },
   "peerDependencies": {
     "next": "*"

@@ -1,0 +1,16 @@
+service: ${NAME}
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: prod
+  timeout: 10
+
+functions:
+  app:
+    handler: node_modules/next-serverless/lib/server.handler
+    events:
+      - http: ANY /
+      - http: 'ANY {proxy+}'
+    environment:
+      NODE_ENV: production
