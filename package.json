@@ -10,9 +10,9 @@
   ],
   "scripts": {
     "build": "babel src -d lib",
-    "watch": "babel --watch src -d lib",
+    "watch": "npm run build -- --watch",
     "lint": "eslint src",
-    "lint:fix": "eslint --fix src",
+    "lint:fix": "npm run lint -- --fix",
     "test": "jest --coverage lib",
     "test:watch": "jest --watch lib",
     "prepack": "rimraf lib/**/__tests__"
