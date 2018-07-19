@@ -1,3 +1,5 @@
+const pathPrefixCache = {};
+
 /**
  * Check if the current code is running in a lambda environment
  *
@@ -14,4 +16,12 @@ export const isLambda = () => !!(process.env.LAMBDA_TASK_ROOT && process.env.AWS
  * @param {string} host - Hostname to check
  * @return {boolean} Wether the current URL has a path prefix
  */
-export const hasPathPrefix = host => !!(host.match(/^[a-z0-9]*\.execute-api\.[a-z0-9-]*\.amazonaws.coms/));
+export const hasPathPrefix = (host) => {
+  if (typeof pathPrefixCache[host] !== 'undefined') {
+    return pathPrefixCache[host];
+  }
+
+  pathPrefixCache[host] = !!(host.match(/^[a-z0-9]*\.execute-api\.[a-z0-9-]*\.amazonaws.com$/));
+
+  return pathPrefixCache[host];
+};

@@ -1,7 +1,31 @@
 import serverless from 'serverless-http';
-import { isLambda } from './util';
+import { isLambda, hasPathPrefix } from './util';
 
 let requestHandler;
+
+/**
+ * Handle incoming requests in the lambda function
+ *
+ * @param {object} app - Next.js app instance
+ * @param {function} handler - Request handler
+ */
+export const lambdaRequestHandler = (app, handler) => {
+  const serverlessHandler = serverless(handler);
+
+  return (event, context, ...params) => {
+    // set asset prefix based on current host and stage
+    const hasPrefix = event && event.headers && event.headers.Host
+      ? hasPathPrefix(event.headers.Host) : false;
+
+    if (hasPrefix) {
+      app.setAssetPrefix('/prod'); // todo: get this dynamically
+    } else {
+      app.setAssetPrefix('');
+    }
+
+    return serverlessHandler(event, context, ...params);
+  };
+};
 
 /**
  * Next serverless request handler
@@ -25,7 +49,7 @@ export default (app, handler, runLocal) => {
 
     // on first start, initially prepare the next.js app before handling requests
     app.prepare().then(() => {
-      requestHandler = serverless(handler);
+      requestHandler = lambdaRequestHandler(app, handler);
       requestHandler(...gatewayParams);
     });
   };
