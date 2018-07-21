@@ -25,3 +25,11 @@ export const hasPathPrefix = (host) => {
 
   return pathPrefixCache[host];
 };
+
+/**
+ * Checks if a link is a local link or if it points to another domain
+ *
+ * @param {string} link - Link to check
+ * @return {boolean} Wether the link is a local link
+ */
+export const isLocal = link => !(link.match(/^([a-z]{1,}:)?\/\//));

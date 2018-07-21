@@ -18,8 +18,10 @@ export const lambdaRequestHandler = (app, handler) => {
       ? hasPathPrefix(event.headers.Host) : false;
 
     if (hasPrefix) {
+      global.next_serverless_prefix = '/prod';
       app.setAssetPrefix('/prod'); // todo: get this dynamically
     } else {
+      global.next_serverless_prefix = null;
       app.setAssetPrefix('');
     }
 
