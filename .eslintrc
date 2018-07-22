@@ -19,7 +19,6 @@
     "jest/no-focused-tests": "error",
     "jest/no-identical-title": "error",
     "import/prefer-default-export": "off",
-    "import/no-unresolved": "off",
     "consistent-return": "off"
   }
 }
