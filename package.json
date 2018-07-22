@@ -6,6 +6,7 @@
   "files": [
     "lib",
     "bin",
+    "link.js",
     "default-serverless.yml"
   ],
   "scripts": {
