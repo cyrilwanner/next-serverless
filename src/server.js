@@ -11,6 +11,6 @@ module.exports.handler = nextServerless(app, handler, () => {
   const port = process.env.PORT || 3000;
   createServer(handler).listen(port, (err) => {
     if (err) throw err;
-    console.log(`> Ready on http://localhost:${port}`); // eslint-disable-line no-console
+    console.log(`> Ready on http://localhost:${port}`);
   });
 });

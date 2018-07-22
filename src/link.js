@@ -1,7 +1,6 @@
 import React from 'react';
 import NextLink from 'next/link';
-import { hasPathPrefix } from './util';
-import { isLocal } from '../lib/util';
+import { hasPathPrefix, isLocal } from './util';
 
 /**
  * Get the current path prefix

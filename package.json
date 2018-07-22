@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "description": "Runs your next.js app with serverless in the cloud",
   "main": "lib/index.js",
+  "bin": {
+    "next-serverless": "lib/bin/next-serverless.js",
+    "next-sls": "lib/bin/next-serverless.js"
+  },
   "files": [
     "lib",
     "bin",
@@ -45,6 +49,7 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.52",
     "@babel/plugin-transform-react-jsx": "^7.0.0-beta.54",
     "@babel/preset-env": "^7.0.0-beta.52",
+    "cross-spawn": "^6.0.5",
     "eslint": "^5.0.1",
     "eslint-config-airbnb-base": "^13.0.0",
     "eslint-plugin-import": "^2.13.0",
@@ -58,6 +63,8 @@
     "rimraf": "^2.6.2"
   },
   "peerDependencies": {
-    "next": "*"
+    "cross-spawn": "*",
+    "next": "*",
+    "react": "*"
   }
 }

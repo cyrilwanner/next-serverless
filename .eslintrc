@@ -23,6 +23,7 @@
     "react/jsx-uses-vars": "error",
     "import/prefer-default-export": "off",
     "import/no-extraneous-dependencies": "off",
-    "consistent-return": "off"
+    "consistent-return": "off",
+    "no-console": "off"
   }
 }
