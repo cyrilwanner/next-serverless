@@ -1,6 +1,7 @@
 {
   "extends": "airbnb-base",
   "plugins": [
+    "react",
     "jest"
   ],
   "parserOptions": {
@@ -18,7 +19,10 @@
     "jest/no-disabled-tests": "error",
     "jest/no-focused-tests": "error",
     "jest/no-identical-title": "error",
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error",
     "import/prefer-default-export": "off",
+    "import/no-extraneous-dependencies": "off",
     "consistent-return": "off"
   }
 }
