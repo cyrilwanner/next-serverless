@@ -1,3 +1,4 @@
+import React from 'react';
 import NextLink from 'next/link';
 import { hasPathPrefix } from './util';
 import { isLocal } from '../lib/util';
@@ -8,7 +9,7 @@ import { isLocal } from '../lib/util';
  */
 const getPrefix = () => {
   if (typeof window === 'undefined') {
-    return global.next_serverless_prefix;
+    return global.next_serverless_prefix || null;
   }
 
   if (hasPathPrefix(window.location.host)) {
@@ -30,7 +31,7 @@ const ServerlessLink = (props) => {
 
   const { href, as, ...parentProps } = props;
 
-  if (!isLocal(href) || !isLocal(as)) {
+  if (!href || !isLocal(href) || (as && !isLocal(as))) {
     return <NextLink {...props} />;
   }
 
