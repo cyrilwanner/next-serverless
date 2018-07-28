@@ -3,7 +3,7 @@ service: ${NAME}
 provider:
   name: aws
   runtime: nodejs8.10
-  stage: prod
+  stage: ${opt:stage, 'prod'}
   timeout: 10
 
 functions:
