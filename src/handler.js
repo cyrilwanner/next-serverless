@@ -1,5 +1,5 @@
 import serverless from 'serverless-http';
-import { isLambda, hasPathPrefix } from './util';
+import { isLambda, hasPathPrefix, getStage } from './util';
 
 let requestHandler;
 
@@ -18,12 +18,13 @@ export const lambdaRequestHandler = (app, handler) => {
       ? hasPathPrefix(event.headers.Host) : false;
 
     if (hasPrefix) {
-      global.next_serverless_prefix = '/prod';
-      app.setAssetPrefix('/prod'); // todo: get this dynamically
+      const pathname = event.requestContext ? event.requestContext.path || '' : '';
+      global.next_serverless_prefix = getStage(pathname);
     } else {
-      global.next_serverless_prefix = null;
-      app.setAssetPrefix('');
+      global.next_serverless_prefix = '';
     }
+
+    app.setAssetPrefix(global.next_serverless_prefix);
 
     return serverlessHandler(event, context, ...params);
   };

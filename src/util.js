@@ -1,4 +1,5 @@
-const pathPrefixCache = {};
+const pathPrefixHostCache = {};
+let pathPrefixCache = null;
 
 /**
  * Check if the current code is running in a lambda environment
@@ -17,13 +18,42 @@ export const isLambda = () => !!(process.env.LAMBDA_TASK_ROOT && process.env.AWS
  * @return {boolean} Wether the current URL has a path prefix
  */
 export const hasPathPrefix = (host) => {
-  if (typeof pathPrefixCache[host] !== 'undefined') {
-    return pathPrefixCache[host];
+  if (typeof pathPrefixHostCache[host] !== 'undefined') {
+    return pathPrefixHostCache[host];
   }
 
-  pathPrefixCache[host] = !!(host.match(/^[a-z0-9]*\.execute-api\.[a-z0-9-]*\.amazonaws.com$/));
+  pathPrefixHostCache[host] = !!(host.match(/^[a-z0-9]*\.execute-api\.[a-z0-9-]*\.amazonaws.com$/));
 
-  return pathPrefixCache[host];
+  return pathPrefixHostCache[host];
+};
+
+/**
+ * Extract the stage from the request path
+ *
+ * @param {string} path - Full path
+ * @return {string} Stage
+ */
+export const getStage = path => path.replace(/^(\/[^/]*).*/, '$1');
+
+/**
+ * Get the current path prefix
+ *
+ * @return {string} Path prefix
+ */
+export const getPathPrefix = () => {
+  if (typeof window === 'undefined') {
+    return global.next_serverless_prefix || '';
+  }
+
+  if (pathPrefixCache === null) {
+    if (hasPathPrefix(window.location.host)) {
+      pathPrefixCache = getStage(window.location.pathname);
+    } else {
+      pathPrefixCache = '';
+    }
+  }
+
+  return pathPrefixCache;
 };
 
 /**
@@ -32,4 +62,4 @@ export const hasPathPrefix = (host) => {
  * @param {string} link - Link to check
  * @return {boolean} Wether the link is a local link
  */
-export const isLocal = link => !(link.match(/^([a-z]{1,}:)?\/\//));
+export const isLocal = link => !(link.match(/^(\/\/|[^/])/));

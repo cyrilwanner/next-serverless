@@ -1,30 +1,14 @@
 import React from 'react';
 import NextLink from 'next/link';
-import { hasPathPrefix, isLocal } from './util';
-
-/**
- * Get the current path prefix
- * @return {string} path prefix or null
- */
-const getPrefix = () => {
-  if (typeof window === 'undefined') {
-    return global.next_serverless_prefix || null;
-  }
-
-  if (hasPathPrefix(window.location.host)) {
-    return '/prod';
-  }
-
-  return null;
-};
+import { isLocal, getPathPrefix } from './util';
 
 /**
  * ServerlessLink component
  */
 const ServerlessLink = (props) => {
-  const prefix = getPrefix();
+  const prefix = getPathPrefix();
 
-  if (prefix === null) {
+  if (prefix === '') {
     return <NextLink {...props} />;
   }
 
@@ -38,7 +22,7 @@ const ServerlessLink = (props) => {
     return (
       <NextLink
         href={href}
-        as={`${prefix}${href.substr(0, 1) === '/' ? '' : '/'}${href}`}
+        as={prefix + href}
         {...parentProps}
       />
     );
@@ -47,7 +31,7 @@ const ServerlessLink = (props) => {
   return (
     <NextLink
       href={href}
-      as={`${prefix}${href.substr(0, 1) === '/' ? '' : '/'}${as}`}
+      as={prefix + as}
       {...parentProps}
     />
   );
