@@ -16,7 +16,8 @@ Deploys your [next.js](https://github.com/zeit/next.js) application to AWS Lambd
 npm install --save next-serverless
 ```
 
-During install, a default `serverless.yml` get created if you don't already have one. You might want to update it to your needs.
+During install, a default `serverless.yml` get created if you don't already have one (if not, copy it from [here](https://github.com/cyrilwanner/next-serverless/blob/master/default-serverless.yml)).
+You might want to update it to your needs.
 
 If you are not using a custom server, replace the `next` binaries in your `package.json` with `next-serverless`:
 
@@ -33,7 +34,7 @@ If you are not using a custom server, replace the `next` binaries in your `packa
 }
 ```
 
-Or if you are using a custom server, read [Using a custom server](#using-a-custom-server) below.
+Or if you are using a custom server, read [using a custom server](#using-a-custom-server) below.
 
 You are now already good to go and your application is ready for the first deployment ([serverless commands](#serverless-commands)) to AWS Lambda.
 However, if you are using a randomly generated ApiGateway hostname and you are not using a custom (sub-) domain, a small change to your links is required to ensure they are still working (see [serverless-links](#serverless-links)).
@@ -44,7 +45,7 @@ However, if you are using a randomly generated ApiGateway hostname and you are n
 
 ## Serverless links
 
-If you are using the randomly generated ApiGateway hostnames, you may have noticed that they have the stage as a path prefix (e.g. `d-6a4anys982.execute-api.eu-west-1.amazonaws.com/prod`).
+If you are using the randomly generated ApiGateway hostnames, you may have noticed that they have the stage as a path prefix (e.g. `nnptap4nw2.execute-api.eu-west-1.amazonaws.com/prod`).
 
 `next-serverless` provides a link component which automatically detects those links and automatically adds the stage prefix.
 
@@ -77,7 +78,7 @@ $ npx serverless deploy
 $ npx serverless deploy --stage prod
 
 # get the server logs
-$ npx logs --stage prod --app app
+$ npx logs --stage prod -f app
 ```
 
 ## Ideas and todos
@@ -90,6 +91,7 @@ Ideas/Todos:
 * provide link component which overrides `as` with the request prefix (e.g. /prod/about instead of /about)
 * make router overwritable (e.g. for next-routes)
 * deploy static assets to s3
+* deployment binary (`"deploy": "npm run build && next-serverless deploy"`)
 
 ## License
 

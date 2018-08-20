@@ -11,6 +11,7 @@
     "lib",
     "bin",
     "link.js",
+    "install.js",
     "default-serverless.yml"
   ],
   "scripts": {
@@ -20,7 +21,8 @@
     "lint:fix": "npm run lint -- --fix",
     "test": "jest --coverage lib",
     "test:watch": "jest --watch lib",
-    "prepack": "rimraf lib/**/__tests__"
+    "prepack": "rimraf lib/**/__tests__",
+    "install": "node ./install"
   },
   "repository": {
     "type": "git",
