@@ -3,9 +3,6 @@ import next from 'next';
 import parseArgs from 'minimist';
 import nextServerless from './handler';
 
-const dev = process.env.NODE_ENV !== 'production';
-const app = next({ dev });
-const handler = app.getRequestHandler();
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
     h: 'help',
@@ -16,6 +13,11 @@ const argv = parseArgs(process.argv.slice(2), {
   string: ['H'],
   default: { p: process.env.PORT || 3000 },
 });
+
+const dev = process.env.NODE_ENV !== 'production';
+const dir = argv._[(argv._[0] === 'dev' ? 1 : 0)] || '.';
+const app = next({ dev, dir });
+const handler = app.getRequestHandler();
 
 module.exports.handler = nextServerless(app, handler, () => {
   // create a normal http node server for local usage

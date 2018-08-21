@@ -28,6 +28,7 @@ export const findNext = () => {
  * @param {string} command - Command to execute
  * @param {array} args - Arguments to pass to the command
  * @param {object} options - Options for the new process
+ * @return {Promise} If `stdio` is set to 'pipe', returns a promise which contains the output
  */
 export const executeCommand = (command, args = [], options = {}) => {
   const proc = spawn(command, args, {
@@ -36,16 +37,45 @@ export const executeCommand = (command, args = [], options = {}) => {
     ...options,
   });
 
+  // handle process output
+  let stdout = '';
+  let stderr = '';
+  let promise;
+  const outputPromise = new Promise((resolve, reject) => {
+    promise = { resolve, reject };
+  });
+
+  if (options.stdio === 'pipe') {
+    proc.stdout.on('data', (data) => {
+      stdout += data;
+    });
+    proc.stderr.on('data', (data) => {
+      stderr += data;
+    });
+  }
+
+  // handle process close
   proc.on('close', (code, signal) => {
-    if (code !== null) {
-      process.exit(code);
-    } else if (signal && signal === 'SIGKILL') {
-      process.exit(137);
-    } else if (signal) {
-      process.exit(1);
+    if (options.stdio === 'pipe') {
+      if (stderr === '') {
+        promise.resolve(stdout);
+      } else {
+        promise.reject(stderr);
+      }
     }
 
-    process.exit(0);
+    // wait for promises to resolve
+    setTimeout(() => {
+      if (code !== null) {
+        process.exit(code);
+      } else if (signal && signal === 'SIGKILL') {
+        process.exit(137);
+      } else if (signal) {
+        process.exit(1);
+      }
+
+      process.exit(0);
+    });
   });
 
   proc.on('error', (err) => {
@@ -56,4 +86,6 @@ export const executeCommand = (command, args = [], options = {}) => {
   process.on('SIGINT', proc.kill);
   process.on('SIGTERM', proc.kill);
   process.on('exit', proc.kill);
+
+  return outputPromise;
 };

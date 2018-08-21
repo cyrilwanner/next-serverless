@@ -15,5 +15,13 @@ if (!isHelp && (process.argv.length <= 2 || process.argv[2].startsWith('-') || p
 
 // pipe all other commands to the next executable
 } else {
-  executeCommand(`${findNext()}/dist/bin/next`, process.argv.slice(2));
+  const exec = executeCommand(`${findNext()}/dist/bin/next`, process.argv.slice(2), isHelp ? {
+    stdio: 'pipe',
+  } : {});
+
+  if (isHelp) {
+    exec.then((output) => {
+      console.log(output.replace(/\$ next /g, '$ next-serverless '));
+    });
+  }
 }
