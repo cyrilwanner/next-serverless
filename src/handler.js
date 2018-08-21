@@ -11,6 +11,7 @@ let requestHandler;
  */
 export const lambdaRequestHandler = (app, handler) => {
   const serverlessHandler = serverless(handler);
+  const pathPrefixes = [''];
 
   return (event, context, ...params) => {
     // set asset prefix based on current host and stage
@@ -19,12 +20,23 @@ export const lambdaRequestHandler = (app, handler) => {
 
     if (hasPrefix) {
       const pathname = event.requestContext ? event.requestContext.path || '' : '';
-      global.next_serverless_prefix = getStage(pathname);
+      const pathPrefix = getStage(pathname);
+      global.next_serverless_prefix = pathPrefix;
+
+      if (pathPrefixes.indexOf(pathPrefix) < 0) {
+        pathPrefixes.push(pathPrefix);
+      }
     } else {
       global.next_serverless_prefix = '';
     }
 
-    app.setAssetPrefix(global.next_serverless_prefix);
+    // only overwrite the assets prefix if the user didn't set it or we set it previously
+    if (
+      (!app.nextConfig.assetPrefix || pathPrefixes.indexOf(app.nextConfig.assetPrefix) >= 0)
+      && (!app.renderOpts.assetPrefix || pathPrefixes.indexOf(app.renderOpts.assetPrefix) >= 0)
+    ) {
+      app.setAssetPrefix(global.next_serverless_prefix);
+    }
 
     return serverlessHandler(event, context, ...params);
   };
