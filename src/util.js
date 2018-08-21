@@ -63,3 +63,18 @@ export const getPathPrefix = () => {
  * @return {boolean} Wether the link is a local link
  */
 export const isLocal = link => !(link.match(/^(\/\/|[^/])/));
+
+/**
+ * Prefixes a path if it is a local one.
+ * If no prefix is needed, it just returns the input path.
+ *
+ * @param {string} path - Path to prefix
+ * @return {string} Prefixed path
+ */
+export const prefixPath = (path) => {
+  if (isLocal(path)) {
+    return getPathPrefix() + path;
+  }
+
+  return path;
+};
