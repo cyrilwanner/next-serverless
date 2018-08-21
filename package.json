@@ -65,8 +65,9 @@
     "rimraf": "^2.6.2"
   },
   "peerDependencies": {
-    "cross-spawn": "*",
-    "next": "*",
-    "react": "*"
+    "cross-spawn": ">= 5.1.0",
+    "minimist": ">= 1.2.0",
+    "next": ">= 6.0.0",
+    "react": ">= 16.0.0"
   }
 }

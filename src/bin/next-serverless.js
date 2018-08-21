@@ -2,12 +2,14 @@
 import path from 'path';
 import { findNext, executeCommand } from '../cli';
 
+const isHelp = process.argv.indexOf('-h') >= 0 || process.argv.indexOf('--help') >= 0;
+
 // next-serverless dev
-if (process.argv.length <= 2 || process.argv[2].startsWith('-') || process.argv[2] === 'dev') {
+if (!isHelp && (process.argv.length <= 2 || process.argv[2].startsWith('-') || process.argv[2] === 'dev')) {
   require(path.resolve(__dirname, '..', 'server')); // eslint-disable-line
 
 // next-serverless start
-} else if (process.argv.length > 2 && process.argv[2] === 'start') {
+} else if (!isHelp && process.argv.length > 2 && process.argv[2] === 'start') {
   process.env.NODE_ENV = 'production';
   require(path.resolve(__dirname, '..', 'server')); // eslint-disable-line
 
