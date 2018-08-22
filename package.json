@@ -12,6 +12,7 @@
     "bin",
     "link.js",
     "install.js",
+    "handler.js",
     "default-serverless.yml"
   ],
   "scripts": {
