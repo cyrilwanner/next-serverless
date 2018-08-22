@@ -16,6 +16,7 @@ export const lambdaRequestHandler = (app, handler) => {
   return (event, context, ...params) => {
     // set asset prefix based on current host and stage
     const hasPrefix = event && event.headers && event.headers.Host
+      && typeof event.headers['X-Amz-Cf-Id'] === 'undefined'
       ? hasPathPrefix(event.headers.Host) : false;
 
     if (hasPrefix) {
