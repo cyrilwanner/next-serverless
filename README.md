@@ -1,6 +1,6 @@
 # :cloud: next-serverless
 
-Deploys your [next.js](https://github.com/zeit/next.js) application to AWS Lambda with minimal or even no configuration using the [serverless](https://serverless.com/) framework.
+Deploys your [next.js](https://github.com/zeit/next.js) application to AWS Lambda with minimal or even no configuration using the [serverless](https://serverless.com/framework/) framework.
 
 ## Table of contents
 
@@ -64,13 +64,16 @@ export default () => (
 
 ## Serverless commands
 
-`next-serverless` is fully compatible with the [serverless](https://serverless.com/) framework so you can use the same commands here.
+`next-serverless` is fully compatible with the [serverless](https://serverless.com/framework/) framework so you can use the same commands here.
 
-You can either install `serverless` globally (`npm install --global serverless`) or use `npx` (it comes with npm 5.2+ and higher).
+You can either install `serverless` locally, globally (`npm install --global serverless`) or use `npx` which comes with npm 5.2+ and higher.
 
 A few example commands:
 
 ```bash
+# build the application before deploying it
+$ npm run build
+
 # deploy to the default stage
 $ npx serverless deploy
 
