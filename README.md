@@ -1,4 +1,4 @@
-# :cloud: next-serverless
+# :cloud: next-serverless [![npm version](https://badgen.net/npm/v/next-serverless)] [![license](https://badgen.net/npm/license/next-serverless)]
 
 > It has never been easier to deploy a [next.js](https://github.com/zeit/next.js) application to AWS Lambda!
 
