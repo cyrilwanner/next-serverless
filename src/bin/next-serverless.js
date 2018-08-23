@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import path from 'path';
-import { findNext, executeCommand } from '../cli';
+import { findNext, executeCommand } from '../next/cli';
 
 const isHelp = process.argv.indexOf('-h') >= 0 || process.argv.indexOf('--help') >= 0;
 

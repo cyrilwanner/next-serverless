@@ -1,1 +1,1 @@
-module.exports = require('./lib/link');
+module.exports = require('./lib/next/link');

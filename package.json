@@ -16,6 +16,7 @@
     "default-serverless.yml"
   ],
   "scripts": {
+    "prebuild": "rimraf lib",
     "build": "babel src -d lib",
     "watch": "npm run build -- --watch",
     "lint": "eslint src",

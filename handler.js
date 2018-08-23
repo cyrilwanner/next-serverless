@@ -1,1 +1,1 @@
-module.exports = require('./lib/handler').default;
+module.exports = require('./lib/next/handler').default;
