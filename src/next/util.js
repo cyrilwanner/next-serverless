@@ -6,7 +6,7 @@ let pathPrefixCache = null;
  *
  * @return {boolean} True if the current environment is a lambda env
  */
-export const isLambda = () => !!(process.env.LAMBDA_TASK_ROOT && process.env.AWS_EXECUTION_ENV);
+export const isLambda = () => !!(process.env.LAMBDA_TASK_ROOT && process.env.AWS_EXECUTION_ENV) || process.env.IS_OFFLINE;
 
 /**
  * Check if a path prefix is needed.
