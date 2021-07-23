@@ -1,0 +1,113 @@
+version: 2.1
+
+workflows:
+  code-quality:
+    jobs:
+      - setup:
+          context: cti_global
+      - lint:
+          context: cti_global
+          requires:
+            - setup
+  deployment:
+    jobs:
+      - setup:
+          context: cti_global
+          filters:
+            tags:
+              only: /[0-9]+(\.[0-9]+)*/
+            branches:
+              ignore: /.*/
+      - deploy:
+          context: cti_global
+          requires:
+            - setup
+          filters:
+            tags:
+              only: /[0-9]+(\.[0-9]+)*/
+            branches:
+              ignore: /.*/
+
+executors:
+  node-executor:
+    docker:
+      - image: circleci/node:12
+    working_directory: /tmp
+
+references:
+  repo_auth: &repo_auth
+    run:
+      name: Authenticate with registry
+      command: |
+        echo "registry=https://npm-proxy.fury.io/consumertrack/" > ~/.npmrc
+        echo "//npm-proxy.fury.io/consumertrack/:_authToken=${GEMFURY_DEPLOY_TOKEN}" >> ~/.npmrc
+  upgrade_npm: &upgrade_npm
+    run:
+      name: Upgrade npm
+      command: sudo npm i -g npm@6.14.9
+  install_deps: &install_deps
+    run:
+      name: Install local dependencies
+      command: npm ci
+      working_directory: /tmp/app
+  buil: &buil
+    run:
+      name: Build library
+      command: npm run prebuild && npm run build
+      working_directory: /tmp/app
+  get_package_version: &get_package_version
+    run:
+      name: Get package version
+      command: |
+        bash /tmp/app/.circleci/scripts/get_package_version.sh
+        source $BASH_ENV
+
+jobs:
+  setup:
+    executor: node-executor
+    steps:
+      - checkout:
+          path: /tmp/app
+      - restore_cache:
+          key: dependencies-cache-{{ checksum "/tmp/app/package-lock.json" }}
+      - *repo_auth
+      - *upgrade_npm
+      - *install_deps
+      - *build
+      - save_cache:
+          paths:
+            - app/node_modules
+          key: dependencies-cache-{{ checksum "/tmp/app/package-lock.json" }}
+      - persist_to_workspace:
+          root: /tmp
+          paths:
+            - app
+
+  lint:
+    executor: node-executor
+    steps:
+      - attach_workspace:
+          at: /tmp
+      - run:
+          name: Lint check
+          command: npm run lint
+          working_directory: /tmp/app
+  
+  deploy:
+    executor: node-executor
+    steps:
+      - attach_workspace:
+          at: /tmp
+      - run:
+          name: Authenticate with registry
+          command: |
+            echo "registry=\"https://npm.fury.io/consumertrack/\"" > ~/.npmrc
+            echo "//npm.fury.io/consumertrack/:_authToken=$GEMFURY_PUSH_TOKEN" >> ~/.npmrc
+      - run:
+          name: Set version from git
+          command: sed -i 's/"0.0.0"/"'$CIRCLE_TAG'"/g' /tmp/app/package*.json
+          working_directory: /tmp/app
+      - run:
+          name: Publish package to GemFury NPM
+          command: npm publish
+          working_directory: /tmp/app
