@@ -1,7 +1,7 @@
 {
-  "name": "next-serverless",
+  "name": "nextjs12-serverless",
   "version": "1.0.0",
-  "description": "Runs your next.js app with serverless in the cloud",
+  "description": "Runs your next.js 12 app with serverless in the cloud",
   "main": "lib/index.js",
   "bin": {
     "next-serverless": "lib/bin/next-serverless.js",
@@ -28,7 +28,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cyrilwanner/next-serverless.git"
+    "url": "git+https://github.com/wpniederer/next-serverless.git"
   },
   "keywords": [
     "next.js",
@@ -38,12 +38,11 @@
     "serverless",
     "aws"
   ],
-  "author": "Cyril Wanner <info@cyr.li>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cyrilwanner/next-serverless/issues"
+    "url": "https://github.com/wpniederer/next-serverless/issues"
   },
-  "homepage": "https://github.com/cyrilwanner/next-serverless#readme",
+  "homepage": "https://github.com/wpniederer/next-serverless#readme",
   "dependencies": {
     "serverless-http": "^1.6.0"
   },
